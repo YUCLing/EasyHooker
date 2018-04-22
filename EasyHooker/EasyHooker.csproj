@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllHooker.cs" />
+    <Compile Include="CustomHooker.cs" />
     <Compile Include="HookId.cs" />
     <Compile Include="KeyHooker.cs" />
     <Compile Include="Messages.cs" />
