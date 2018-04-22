@@ -1,3 +1,4 @@
 /EasyHooker/obj/
 /.vs/
 /EasyHooker/bin/
+*.csproj.user

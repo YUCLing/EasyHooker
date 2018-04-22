@@ -50,6 +50,7 @@ namespace EasyHooker.Hooker
             propertyInfos = GetPropertyInfoArray(typeof(HookId));
             if (isIdHookVaild(idHook))
                 throw new Exception("Supported hook!");
+            this.idHook = idHook;
             cc = callback;
         }
 
