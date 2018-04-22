@@ -21,7 +21,7 @@ namespace EasyHooker.Hooker
 
         private delegate int InsiderCallback(int nCode, int wParam, KeyStruct lParam);
 
-        public delegate bool KeyCallback(Keys key);
+        public delegate bool KeyCallback(Keys key,int message);
         private KeyCallback kc;
 
         public bool IsHooked
@@ -65,7 +65,9 @@ namespace EasyHooker.Hooker
 
         private int CallOutside(int nCode, int wParam, KeyStruct lParam)
         {
-            bool shouldBlock = kc.Invoke((Keys)lParam.vkCode);
+            if (!(nCode >= 0))
+                return CallNextHookEx(hookId, nCode, wParam, lParam);
+            bool shouldBlock = kc.Invoke((Keys)lParam.vkCode, wParam);
             if (!shouldBlock)
                 return CallNextHookEx(hookId, nCode, wParam, lParam);
             return 1;

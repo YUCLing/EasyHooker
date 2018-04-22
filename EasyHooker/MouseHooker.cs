@@ -13,9 +13,9 @@ namespace EasyHooker.Hooker
         [DllImport("user32.dll")]
         private static extern bool UnhookWindowsHookEx(int idHook);
         [DllImport("user32.dll")]
-        private static extern int CallNextHookEx(int idHook, int nCode, Int32 wParam, MouseStruct lParam);
+        private static extern int CallNextHookEx(int idHook, int nCode, int wParam, MouseStruct lParam);
 
-        private delegate int InsiderCallback(int nCode, Int32 wParam, MouseStruct lParam);
+        private delegate int InsiderCallback(int nCode, int wParam, MouseStruct lParam);
 
         private int hookId = 0;
         private MouseCallback mc;
@@ -36,7 +36,7 @@ namespace EasyHooker.Hooker
             public int dwExtraInfo;
         }
 
-        public delegate bool MouseCallback(Point pt, Int32 message);
+        public delegate bool MouseCallback(Point pt, int message);
 
         public MouseHooker(MouseCallback callback)
         {
@@ -67,8 +67,10 @@ namespace EasyHooker.Hooker
                 hookId = 0;
         }
 
-        private int CallOutside(int nCode, Int32 wParam, MouseStruct lParam)
+        private int CallOutside(int nCode, int wParam, MouseStruct lParam)
         {
+            if (!(nCode >= 0))
+                return CallNextHookEx(hookId, nCode, wParam, lParam);
             bool shouldBlock = mc.Invoke(lParam.pt, wParam);
             if (!shouldBlock)
                 return CallNextHookEx(hookId, nCode, wParam, lParam);
